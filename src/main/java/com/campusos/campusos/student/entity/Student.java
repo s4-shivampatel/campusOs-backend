@@ -118,7 +118,7 @@ public class Student {
     private List<StudentDocument> documents = new ArrayList<>();
 
     // <------ENROLLMENT RELATION------>
-//
+
     @OneToMany(
             mappedBy = "student",
             cascade = CascadeType.ALL,
