@@ -21,14 +21,12 @@ import static com.campusos.campusos.common.enums.StudentStatus.ACTIVE;
 @RequiredArgsConstructor
 public class StudentService {
 
-    @Autowired
+    //@Autowired not required due to @RequiredArgsConstructor
     private final StudentRepository studentRepository;
-    @Autowired
     private final ModelMapper modelMapper;
 
     public StudentResponse createStudent(@Valid CreateStudentRequest createDto) {
-        Student student=new Student();
-        student=modelMapper.map(createDto, Student.class);
+        Student student=modelMapper.map(createDto, Student.class);
         if(student.getStatus()==null){
             student.setStatus(ACTIVE);
         }

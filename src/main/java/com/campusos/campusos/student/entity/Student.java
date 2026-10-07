@@ -1,6 +1,6 @@
 package com.campusos.campusos.student.entity;
 
-//import com.campusos.campusos.department.entity.Department;
+
 import com.campusos.campusos.common.enums.Gender;
 import com.campusos.campusos.common.enums.StudentStatus;
 import com.campusos.campusos.user.entity.User;
@@ -67,7 +67,6 @@ public class Student {
     @JoinColumn(
             name = "user_id",
             unique = true,
-            nullable = false,
             foreignKey = @ForeignKey(name = "fk_student_user")
     )
     private User user;
