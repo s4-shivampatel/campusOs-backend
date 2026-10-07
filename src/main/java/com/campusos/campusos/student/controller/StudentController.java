@@ -2,6 +2,7 @@ package com.campusos.campusos.student.controller;
 
 import com.campusos.campusos.student.dto.CreateStudentRequest;
 import com.campusos.campusos.student.dto.StudentResponse;
+import com.campusos.campusos.student.dto.UpdateStudentRequest;
 import com.campusos.campusos.student.service.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -43,8 +44,8 @@ public class StudentController {
     @PutMapping("/{id}")
     public ResponseEntity<StudentResponse> updateStudent(
             @PathVariable Long id,
-            @Valid @RequestBody CreateStudentRequest createDto) {
-        StudentResponse response =studentService.updateStudent(id, createDto);
+            @Valid @RequestBody UpdateStudentRequest updateDto) {
+        StudentResponse response =studentService.updateStudent(id, updateDto);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
