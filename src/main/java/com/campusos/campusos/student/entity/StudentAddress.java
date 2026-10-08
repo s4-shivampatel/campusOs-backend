@@ -40,8 +40,7 @@ public class StudentAddress {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "student_id",
-            nullable = false,
-            unique = true
+            nullable = false
     )
     private Student student;
 }

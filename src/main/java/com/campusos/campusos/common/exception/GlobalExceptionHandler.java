@@ -27,6 +27,7 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse>handleValidationException(
             HttpServletRequest request,
@@ -47,7 +48,21 @@ public class GlobalExceptionHandler {
                 errors,
                 LocalDateTime.now()
         );
-
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<ErrorResponse>handleDuplicateResourceException(
+            HttpServletRequest request,
+            DuplicateResourceException ex
+    ){
+        ErrorResponse response=new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                ex.getMessage(),
+                request.getRequestURI(),
+                null,
+                LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 }

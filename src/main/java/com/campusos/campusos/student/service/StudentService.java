@@ -1,6 +1,7 @@
 package com.campusos.campusos.student.service;
 
 
+import com.campusos.campusos.common.exception.DuplicateResourceException;
 import com.campusos.campusos.common.exception.ResourceNotFoundException;
 import com.campusos.campusos.student.dto.CreateStudentRequest;
 import com.campusos.campusos.student.dto.PatchUpdateStudentRequest;
@@ -27,6 +28,12 @@ public class StudentService {
     private final ModelMapper modelMapper;
 
     public StudentResponse createStudent(@Valid CreateStudentRequest createDto) {
+        if(studentRepository.existsByEmail(createDto.getEmail())){
+            throw new DuplicateResourceException("Student with email '"+createDto.getEmail()+"' already exists");
+        }
+        if(studentRepository.existsByRollNumber(createDto.getRollNumber())){
+            throw new DuplicateResourceException("Student with roll number '"+createDto.getRollNumber()+"' already exists");
+        }
         Student student=modelMapper.map(createDto, Student.class);
         if(student.getStatus()==null){
             student.setStatus(ACTIVE);
