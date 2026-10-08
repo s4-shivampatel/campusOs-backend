@@ -2,6 +2,7 @@ package com.campusos.campusos.student.service;
 
 
 import com.campusos.campusos.student.dto.CreateStudentRequest;
+import com.campusos.campusos.student.dto.PatchUpdateStudentRequest;
 import com.campusos.campusos.student.dto.StudentResponse;
 import com.campusos.campusos.student.dto.UpdateStudentRequest;
 import com.campusos.campusos.student.entity.Student;
@@ -9,7 +10,6 @@ import com.campusos.campusos.student.repository.StudentRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -67,5 +67,17 @@ public class StudentService {
                 ()->new RuntimeException("student not found with id:"+id)
         );
         studentRepository.delete(studentFounded);
+    }
+
+
+    public StudentResponse patchUpdateStudent(Long id, @Valid PatchUpdateStudentRequest patchUpdateStudentRequest) {
+        Student studentFounded=studentRepository.findById(id).orElseThrow(
+                ()->new RuntimeException("student not found with id:"+id)
+        );
+        modelMapper.map(patchUpdateStudentRequest,studentFounded);
+
+        Student savedStudent=studentRepository.save(studentFounded);
+        return modelMapper.map(savedStudent,StudentResponse.class);
+
     }
 }

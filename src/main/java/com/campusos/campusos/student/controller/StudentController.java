@@ -1,6 +1,7 @@
 package com.campusos.campusos.student.controller;
 
 import com.campusos.campusos.student.dto.CreateStudentRequest;
+import com.campusos.campusos.student.dto.PatchUpdateStudentRequest;
 import com.campusos.campusos.student.dto.StudentResponse;
 import com.campusos.campusos.student.dto.UpdateStudentRequest;
 import com.campusos.campusos.student.service.StudentService;
@@ -46,6 +47,14 @@ public class StudentController {
             @PathVariable Long id,
             @Valid @RequestBody UpdateStudentRequest updateDto) {
         StudentResponse response =studentService.updateStudent(id, updateDto);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PatchMapping("/{id}")
+    public  ResponseEntity<StudentResponse>patchUpdateStudent(
+            @PathVariable Long id,
+            @Valid @RequestBody PatchUpdateStudentRequest patchUpdateStudentRequest  ){
+        StudentResponse response=studentService.patchUpdateStudent(id,patchUpdateStudentRequest);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

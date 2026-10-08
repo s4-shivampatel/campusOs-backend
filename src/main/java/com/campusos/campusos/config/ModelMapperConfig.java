@@ -15,9 +15,12 @@ public class ModelMapperConfig {
     public ModelMapper modelMapper(){
         ModelMapper modelMapper=new ModelMapper();
 
-        // nesting mismatching nhi karta
-//        modelMapper.getConfiguration()
-//                .setMatchingStrategy(MatchingStrategies.STRICT);
+
+        modelMapper.getConfiguration()
+                //setMatchingStrategy STRICT nesting mismatching nhi karta
+                .setMatchingStrategy(MatchingStrategies.STRICT)
+                //jo values null hongi usko skip kr dega
+                        .setSkipNullEnabled(true);
 
         //Student Long id mismatched configuration
         modelMapper.typeMap(CreateStudentRequest.class, Student.class)
