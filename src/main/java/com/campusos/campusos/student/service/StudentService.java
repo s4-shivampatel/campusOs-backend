@@ -1,6 +1,7 @@
 package com.campusos.campusos.student.service;
 
 
+import com.campusos.campusos.common.exception.ResourceNotFoundException;
 import com.campusos.campusos.student.dto.CreateStudentRequest;
 import com.campusos.campusos.student.dto.PatchUpdateStudentRequest;
 import com.campusos.campusos.student.dto.StudentResponse;
@@ -38,7 +39,7 @@ public class StudentService {
     public StudentResponse getStudentById(Long id) {
 
         Student  savedStudent=studentRepository.findById(id).orElseThrow(
-                ()->new RuntimeException("Student not found with id: " + id)
+                ()->new ResourceNotFoundException("Student not found with id: " + id)
         );
         return modelMapper.map(savedStudent,StudentResponse.class);
 
@@ -55,7 +56,7 @@ public class StudentService {
 
     public StudentResponse updateStudent(Long id, @Valid UpdateStudentRequest updateDto) {
         Student studentFounded=studentRepository.findById(id).orElseThrow(
-                ()->new RuntimeException("student not found with id:"+id)
+                ()->new ResourceNotFoundException("student not found with id:"+id)
         );
         modelMapper.map(updateDto,studentFounded);
         Student updatedStudent=studentRepository.save(studentFounded);
@@ -64,7 +65,7 @@ public class StudentService {
 
     public void deleteStudent(Long id) {
         Student studentFounded=studentRepository.findById(id).orElseThrow(
-                ()->new RuntimeException("student not found with id:"+id)
+                ()->new ResourceNotFoundException("student not found with id:"+id)
         );
         studentRepository.delete(studentFounded);
     }
@@ -72,7 +73,7 @@ public class StudentService {
 
     public StudentResponse patchUpdateStudent(Long id, @Valid PatchUpdateStudentRequest patchUpdateStudentRequest) {
         Student studentFounded=studentRepository.findById(id).orElseThrow(
-                ()->new RuntimeException("student not found with id:"+id)
+                ()->new ResourceNotFoundException("student not found with id:"+id)
         );
         modelMapper.map(patchUpdateStudentRequest,studentFounded);
 
