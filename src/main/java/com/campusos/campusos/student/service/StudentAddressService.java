@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class StudentAddressService {
@@ -29,25 +31,51 @@ public class StudentAddressService {
 
         StudentAddress savedStudentAdd= studentAddressRepository.save(studentAddress);
 
-        StudentAddressResponse response=modelMapper.map(savedStudentAdd,StudentAddressResponse.class);
+        return modelMapper.map(savedStudentAdd,StudentAddressResponse.class);
 
-
-        return response;
     }
 
-//    public StudentAddressResponse getStudentAddById(Long id) {
-//    }
-//
-//
-//    public List<StudentAddressResponse> getAddOfStudent() {
-//    }
-//
-//    public StudentAddressResponse updateStudentAdd(Long id, @Valid UpdateStudentAddressRequest updateAddDto) {
-//    }
-//
-//    public StudentAddressResponse patchUpdateStudent(Long id, @Valid PatchUpdateStudentAddRequest patchUpdateStudentAddRequest) {
-//    }
-//
-//    public void deleteStudentAdd(Long id) {
-//    }
+    public StudentAddressResponse getStudentAddById(Long id) {
+
+        StudentAddress studentAddress=studentAddressRepository.findById(id).orElseThrow(
+                ()-> new ResourceNotFoundException("Address not found with id:"+id)
+        );
+        return modelMapper.map(studentAddress,StudentAddressResponse.class);
+    }
+
+
+    public List<StudentAddressResponse> getAddOfStudent() {
+        List<StudentAddress> studentAddresses=studentAddressRepository.findAll();
+        List<StudentAddressResponse> responses=new ArrayList<>();
+        for (StudentAddress studentAddress: studentAddresses){
+            responses.add(modelMapper.map(studentAddress,StudentAddressResponse.class));
+        }
+        return responses;
+    }
+
+    public StudentAddressResponse updateStudentAdd(Long id, @Valid UpdateStudentAddressRequest updateAddDto) {
+        StudentAddress studentAddressFounded=studentAddressRepository.findById(id).orElseThrow(
+                ()->new ResourceNotFoundException("Address not found with id;"+id)
+        );
+        modelMapper.map(updateAddDto,studentAddressFounded);
+        StudentAddress updatedAddress=studentAddressRepository.save(studentAddressFounded);
+        return modelMapper.map(updatedAddress,StudentAddressResponse.class);
+
+    }
+
+    public StudentAddressResponse patchUpdateStudent(Long id, @Valid PatchUpdateStudentAddRequest patchUpdateStudentAddRequest) {
+        StudentAddress studentAddressFounded=studentAddressRepository.findById(id).orElseThrow(
+                ()->new ResourceNotFoundException("Address not found with id;"+id)
+        );
+        modelMapper.map(patchUpdateStudentAddRequest,studentAddressFounded);
+        StudentAddress updatedAddress=studentAddressRepository.save(studentAddressFounded);
+        return modelMapper.map(updatedAddress,StudentAddressResponse.class);
+    }
+
+    public void deleteStudentAdd(Long id) {
+        StudentAddress studentAddressFounded=studentAddressRepository.findById(id).orElseThrow(
+                ()->new ResourceNotFoundException("Address not found with id;"+id)
+        );
+        studentAddressRepository.delete(studentAddressFounded);
+    }
 }

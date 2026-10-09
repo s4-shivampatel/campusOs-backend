@@ -8,8 +8,6 @@ import lombok.Data;
 
 @Data
 public class PatchUpdateStudentAddRequest {
-
-    @NotNull(message = "Address type is required")
     private AddressType type;
 
     @Size(max = 255, message = "Address line must not exceed 255 characters")

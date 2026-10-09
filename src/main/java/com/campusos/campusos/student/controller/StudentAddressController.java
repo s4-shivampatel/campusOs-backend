@@ -28,39 +28,39 @@ public class StudentAddressController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<StudentAddressResponse> getStudentAddById(
-//            @PathVariable Long id) {
-//        StudentAddressResponse response = studentAddressService.getStudentAddById(id);
-//        return ResponseEntity.status(HttpStatus.OK).body(response);
-//    }
-//
-//    @GetMapping
-//    public ResponseEntity<List<StudentAddressResponse>> getAddOfStudent() {
-//        List<StudentAddressResponse> response = studentAddressService.getAddOfStudent();
-//        return ResponseEntity.status(HttpStatus.OK).body(response);
-//    }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<StudentAddressResponse> updateStudentAdd(
-//            @PathVariable Long id,
-//            @Valid @RequestBody UpdateStudentAddressRequest updateAddDto) {
-//        StudentAddressResponse response =studentAddressService.updateStudentAdd(id, updateAddDto);
-//        return ResponseEntity.status(HttpStatus.OK).body(response);
-//    }
-//
-//    @PatchMapping("/{id}")
-//    public  ResponseEntity<StudentAddressResponse>patchUpdateStudentAdd(
-//            @PathVariable Long id,
-//            @Valid @RequestBody PatchUpdateStudentAddRequest patchUpdateStudentAddRequest  ){
-//        StudentAddressResponse response=studentAddressService.patchUpdateStudent(id,patchUpdateStudentAddRequest);
-//        return ResponseEntity.status(HttpStatus.OK).body(response);
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteStudentAdd(
-//            @PathVariable Long id) {
-//        studentAddressService.deleteStudentAdd(id);
-//        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-//    }
+    @GetMapping("/{AddressId}")
+    public ResponseEntity<StudentAddressResponse> getStudentAddById(
+            @PathVariable Long AddressId) {
+        StudentAddressResponse response = studentAddressService.getStudentAddById(AddressId);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<StudentAddressResponse>> getAddOfStudent() {
+        List<StudentAddressResponse> response = studentAddressService.getAddOfStudent();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PutMapping("/{AddressId}")
+    public ResponseEntity<StudentAddressResponse> updateStudentAdd(
+            @PathVariable Long AddressId,
+            @Valid @RequestBody UpdateStudentAddressRequest updateAddDto) {
+        StudentAddressResponse response =studentAddressService.updateStudentAdd(AddressId, updateAddDto);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PatchMapping("/{AddressId}")
+    public  ResponseEntity<StudentAddressResponse>patchUpdateStudentAdd(
+            @PathVariable Long AddressId,
+            @Valid @RequestBody PatchUpdateStudentAddRequest patchUpdateStudentAddRequest  ){
+        StudentAddressResponse response=studentAddressService.patchUpdateStudent(AddressId,patchUpdateStudentAddRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @DeleteMapping("/{AddressId}")
+    public ResponseEntity<Void> deleteStudentAdd(
+            @PathVariable Long AddressId) {
+        studentAddressService.deleteStudentAdd(AddressId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
