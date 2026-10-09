@@ -17,7 +17,5 @@ public class StudentDocumentResponse {
 
     private LocalDateTime uploadedAt;
 
-    private Boolean verified;
-
     private Long studentId;
 }

@@ -30,16 +30,19 @@ public class StudentDocument {
     private String fileUrl;
 
     private LocalDateTime uploadedAt;
-
-    private boolean verified;
-
+    @PrePersist
+    public void onCreate() {
+        if (uploadedAt == null) {
+            uploadedAt = LocalDateTime.now();
+        }
+    }
 
     // Many documents belong to one student
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "student_id",
             nullable = false
     )
     private Student student;
+
 }
