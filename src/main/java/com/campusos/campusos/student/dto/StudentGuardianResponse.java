@@ -18,7 +18,5 @@ public class StudentGuardianResponse {
 
     private String occupation;
 
-    private String address;
-
     private Long studentId;
 }

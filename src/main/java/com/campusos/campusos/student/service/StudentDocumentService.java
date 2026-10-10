@@ -37,42 +37,68 @@ public class StudentDocumentService {
         return response;
     }
 
-    public StudentDocumentResponse getStudentDocById(Long docId) {
+    public StudentDocumentResponse getStudentDocById(Long studentId,Long docId) {
+        Student student=studentRepository.findById(studentId).orElseThrow(
+                ()->new ResourceNotFoundException("Student not found with id "+studentId)
+        );
         StudentDocument documentFounded=studentDocumentRepository.findById(docId).orElseThrow(
                 ()->new ResourceNotFoundException("Document Not found with id:"+docId)
         );
-        return modelMapper.map(documentFounded,StudentDocumentResponse.class);
+        StudentDocumentResponse response=modelMapper.map(documentFounded,StudentDocumentResponse.class);
+        response.setStudentId(studentId);
+        return response;
     }
 
-    public List<StudentDocumentResponse> getAllStudentDocs() {
+    public List<StudentDocumentResponse> getAllStudentDocs(Long studentId) {
+        Student student=studentRepository.findById(studentId).orElseThrow(
+                ()->new ResourceNotFoundException("Student not found with id "+studentId)
+        );
         List<StudentDocument> allDocuments=studentDocumentRepository.findAll();
         List<StudentDocumentResponse> responses=new ArrayList<>();
         for (StudentDocument studentDocument:allDocuments){
-            responses.add(modelMapper.map(studentDocument,StudentDocumentResponse.class));
+            StudentDocumentResponse response=modelMapper.map(studentDocument,StudentDocumentResponse.class);
+            response.setStudentId(studentId);
+            responses.add(response);
+
         }
         return responses;
     }
 
-    public StudentDocumentResponse updateStudentDoc(Long docId, @Valid UpdateStudentDocumentRequest updateDocDto) {
+    public StudentDocumentResponse updateStudentDoc(Long studentId,Long docId, @Valid UpdateStudentDocumentRequest updateDocDto) {
+        Student student=studentRepository.findById(studentId).orElseThrow(
+                ()->new ResourceNotFoundException("Student not found with id "+studentId)
+        );
         StudentDocument documentFounded=studentDocumentRepository.findById(docId).orElseThrow(
                 ()->new ResourceNotFoundException("Document Not found with id:"+docId)
         );
         modelMapper.map(updateDocDto,documentFounded);
         StudentDocument updatedDocument=studentDocumentRepository.save(documentFounded);
-        return modelMapper.map(updatedDocument,StudentDocumentResponse.class);
+        StudentDocumentResponse response=modelMapper.map(updatedDocument,StudentDocumentResponse.class);
+        response.setStudentId(studentId);
+        return response;
 
     }
 
-    public StudentDocumentResponse patchUpdateStudentDoc(Long docId, @Valid PatchUpdateStudentDocReq patchUpdateDocDto) {
+    public StudentDocumentResponse patchUpdateStudentDoc(Long studentId, Long docId, @Valid PatchUpdateStudentDocReq patchUpdateDocDto) {
+        Student student=studentRepository.findById(studentId).orElseThrow(
+                ()->new ResourceNotFoundException("Student not found with id "+studentId)
+        );
+
         StudentDocument documentFounded=studentDocumentRepository.findById(docId).orElseThrow(
                 ()->new ResourceNotFoundException("Document Not found with id:"+docId)
         );
         modelMapper.map(patchUpdateDocDto,documentFounded);
         StudentDocument documentUpdated=studentDocumentRepository.save(documentFounded);
-        return modelMapper.map(documentUpdated,StudentDocumentResponse.class);
+        StudentDocumentResponse response=modelMapper.map(documentUpdated,StudentDocumentResponse.class);
+        response.setStudentId(studentId);
+        return response;
     }
 
-    public void deleteStudentDoc(Long docId) {
+    public void deleteStudentDoc(Long studentId,Long docId) {
+        Student student=studentRepository.findById(studentId).orElseThrow(
+                ()->new ResourceNotFoundException("Student not found with id "+studentId)
+        );
+
         StudentDocument documentFounded=studentDocumentRepository.findById(docId).orElseThrow(
                 ()->new ResourceNotFoundException("Document Not found with id:"+docId)
         );

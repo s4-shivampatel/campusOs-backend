@@ -22,6 +22,17 @@ public class StudentEnrollment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private LocalDate enrollmentDate;
+
+    private Integer semester;
+
+    private Integer year;
+
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
+    private EnrollmentStatus status;
+
 
     // <------STUDENT RELATION------>
     @ManyToOne(fetch = FetchType.LAZY)
@@ -67,21 +78,6 @@ public class StudentEnrollment {
 //    )
 //    private Batch batch;
 
-
-    // =========================
-    // ACADEMIC DETAILS
-    // =========================
-
-    private LocalDate enrollmentDate;
-
-    private Integer semester;
-
-    private Integer year;
-
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 30)
-    private EnrollmentStatus status;
 
 
     // =========================

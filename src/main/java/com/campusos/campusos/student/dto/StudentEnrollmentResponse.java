@@ -13,11 +13,11 @@ public class StudentEnrollmentResponse {
 
     private Long studentId;
 
-    private Long departmentId;
-
-    private Long programId;
-
-    private Long batchId;
+//    private Long departmentId;
+//
+//    private Long programId;
+//
+//    private Long batchId;
 
     private LocalDate enrollmentDate;
 
@@ -27,5 +27,5 @@ public class StudentEnrollmentResponse {
 
     private EnrollmentStatus status;
 
-    private List<Long> courses;
+//    private List<Long> courses;
 }

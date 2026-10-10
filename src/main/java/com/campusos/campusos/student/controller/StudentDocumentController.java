@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/students/{id}/documents")
+@RequestMapping("/api/students/{studentId}/documents")
 @RequiredArgsConstructor
 public class StudentDocumentController {
 
@@ -21,45 +21,49 @@ public class StudentDocumentController {
 
     @PostMapping
     public ResponseEntity<StudentDocumentResponse> createStudentDocument(
-            @PathVariable Long id,
+            @PathVariable Long studentId,
             @Valid @RequestBody CreateStudentDocumentRequest createDocDto) {
-        StudentDocumentResponse response = studentDocumentService.createStudentDoc(id,createDocDto);
+        StudentDocumentResponse response = studentDocumentService.createStudentDoc(studentId,createDocDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{docId}")
     public ResponseEntity<StudentDocumentResponse> getStudentDocById(
+            @PathVariable Long studentId,
             @PathVariable Long docId) {
-        StudentDocumentResponse response = studentDocumentService.getStudentDocById(docId);
+        StudentDocumentResponse response = studentDocumentService.getStudentDocById(studentId,docId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<StudentDocumentResponse>> getAllStudentDocs() {
-        List<StudentDocumentResponse> response = studentDocumentService.getAllStudentDocs();
+    public ResponseEntity<List<StudentDocumentResponse>> getAllStudentDocs(@PathVariable Long studentId) {
+        List<StudentDocumentResponse> response = studentDocumentService.getAllStudentDocs(studentId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PutMapping("/{docId}")
     public ResponseEntity<StudentDocumentResponse> updateStudentDoc(
+            @PathVariable Long studentId,
             @PathVariable Long docId,
             @Valid @RequestBody UpdateStudentDocumentRequest updateDocDto) {
-        StudentDocumentResponse response =studentDocumentService.updateStudentDoc(docId, updateDocDto);
+        StudentDocumentResponse response =studentDocumentService.updateStudentDoc(studentId,docId, updateDocDto);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PatchMapping("/{docId}")
     public  ResponseEntity<StudentDocumentResponse>patchUpdateStudentDoc(
+            @PathVariable Long studentId,
             @PathVariable Long docId,
             @Valid @RequestBody PatchUpdateStudentDocReq patchUpdateDocDto  ){
-        StudentDocumentResponse response=studentDocumentService.patchUpdateStudentDoc(docId,patchUpdateDocDto);
+        StudentDocumentResponse response=studentDocumentService.patchUpdateStudentDoc(studentId,docId,patchUpdateDocDto);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @DeleteMapping("/{docId}")
     public ResponseEntity<Void> deleteStudentDoc(
+            @PathVariable Long studentId,
             @PathVariable Long docId) {
-        studentDocumentService.deleteStudentDoc(docId);
+        studentDocumentService.deleteStudentDoc(studentId,docId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

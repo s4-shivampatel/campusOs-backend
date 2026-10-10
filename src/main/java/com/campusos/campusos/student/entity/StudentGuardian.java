@@ -30,8 +30,6 @@ public class StudentGuardian {
 
     private String occupation;
 
-    @Column(length = 300)
-    private String address;
 
 
     // Many guardians can belong to one student
@@ -39,8 +37,7 @@ public class StudentGuardian {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "student_id",
-            nullable = false,
-            unique = true
+            nullable = false
     )
     private Student student;
 }
