@@ -4,6 +4,7 @@ import com.campusos.campusos.common.exception.ResourceNotFoundException;
 import com.campusos.campusos.student.dto.CreateStudentProfileRequest;
 import com.campusos.campusos.student.dto.StudentGuardianResponse;
 import com.campusos.campusos.student.dto.StudentProfileResponse;
+import com.campusos.campusos.student.dto.UpdateStudentProfileRequest;
 import com.campusos.campusos.student.entity.Student;
 import com.campusos.campusos.student.entity.StudentGuardian;
 import com.campusos.campusos.student.entity.StudentProfile;
@@ -63,5 +64,28 @@ public class StudentProfileService {
             responses.add(response);
         }
         return responses;
+    }
+
+    public StudentProfileResponse updateStudentProfile(Long studentId, @Valid UpdateStudentProfileRequest updateProfileDto) {
+        Student student=studentRepository.findById(studentId).orElseThrow(
+                ()->new ResourceNotFoundException("Student not found with id "+studentId)
+        );
+        StudentProfile studentProfile=student.getStudentProfile();
+        if (studentProfile == null) {
+            throw new ResourceNotFoundException(
+                    "Profile not found for Student ID " + studentId
+            );
+        }
+        Long profileId=studentProfile.getId();
+
+        StudentProfile profileFounded=studentProfileRepository.findById(profileId).orElseThrow(
+                ()->new ResourceNotFoundException("Profile not Founded of Student Id "+studentId)
+        );
+        modelMapper.map(updateProfileDto,profileFounded);
+//        profileFounded.setStudent(student);
+        StudentProfile updatedProfile=studentProfileRepository.save(profileFounded);
+        StudentProfileResponse response=modelMapper.map(updatedProfile,StudentProfileResponse.class);
+        response.setStudentId(studentId);
+        return response;
     }
 }

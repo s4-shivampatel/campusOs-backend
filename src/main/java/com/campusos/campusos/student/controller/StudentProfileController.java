@@ -28,7 +28,7 @@ public class StudentProfileController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/students/{studentId}/profile")
+    @GetMapping("/student/{studentId}/profile")
     public ResponseEntity<StudentProfileResponse> getProfileStudentById(
             @PathVariable Long studentId) {
         StudentProfileResponse response = studentProfileService.getProfileByStudentId(studentId);
@@ -41,13 +41,13 @@ public class StudentProfileController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-//    @PutMapping("/students/{studentId}/profile")
-//    public ResponseEntity<StudentProfileResponse> updateStudentProfile(
-//            @PathVariable Long studentId,
-//            @Valid @RequestBody UpdateStudentGuardianRequest updateGuardianDto) {
-//        StudentGuardianResponse response =studentGuardianService.updateStudentGuardian(studentId,guardianId, updateGuardianDto);
-//        return ResponseEntity.status(HttpStatus.OK).body(response);
-//    }
+    @PutMapping("/student/{studentId}/profile")
+    public ResponseEntity<StudentProfileResponse> updateStudentProfile(
+            @PathVariable Long studentId,
+            @Valid @RequestBody UpdateStudentProfileRequest updateProfileDto) {
+        StudentProfileResponse response =studentProfileService.updateStudentProfile(studentId, updateProfileDto);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
 //    @PatchMapping("/{guardianId}")
 //    public  ResponseEntity<StudentGuardianResponse>patchUpdateStudentGuardian(
