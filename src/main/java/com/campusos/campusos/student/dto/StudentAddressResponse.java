@@ -22,4 +22,6 @@ public class StudentAddressResponse {
 
     private String pincode;
 
+    private Long studentId;
+
 }

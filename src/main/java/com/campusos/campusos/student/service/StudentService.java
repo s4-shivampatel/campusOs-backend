@@ -3,10 +3,7 @@ package com.campusos.campusos.student.service;
 
 import com.campusos.campusos.common.exception.DuplicateResourceException;
 import com.campusos.campusos.common.exception.ResourceNotFoundException;
-import com.campusos.campusos.student.dto.CreateStudentRequest;
-import com.campusos.campusos.student.dto.PatchUpdateStudentRequest;
-import com.campusos.campusos.student.dto.StudentResponse;
-import com.campusos.campusos.student.dto.UpdateStudentRequest;
+import com.campusos.campusos.student.dto.*;
 import com.campusos.campusos.student.entity.Student;
 import com.campusos.campusos.student.repository.StudentRepository;
 import jakarta.validation.Valid;
@@ -48,7 +45,13 @@ public class StudentService {
         Student  savedStudent=studentRepository.findById(id).orElseThrow(
                 ()->new ResourceNotFoundException("Student not found with id: " + id)
         );
-        return modelMapper.map(savedStudent,StudentResponse.class);
+        StudentResponse response=modelMapper.map(savedStudent,StudentResponse.class);
+        response.getAddresses().forEach((StudentAddressResponse add)->add.setStudentId(id));
+        response.getDocuments().forEach((StudentDocumentResponse doc)->doc.setStudentId(id));
+        response.getEnrollments().forEach((StudentEnrollmentResponse enroll)->enroll.setStudentId(id));
+        response.getGuardians().forEach((StudentGuardianResponse guardian)->guardian.setStudentId(id));
+        response.getStudentProfile().setStudentId(id);
+        return response ;
 
     }
 

@@ -21,7 +21,7 @@ public class StudentResponse {
     private String status;
     private Long userId;
     private Long departmentId;
-    private Long profileId;
+    private StudentProfileResponse studentProfile;
     private List<StudentAddressResponse> addresses;
     private List<StudentGuardianResponse> guardians;
     private List<StudentDocumentResponse> documents;
