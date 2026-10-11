@@ -49,21 +49,19 @@ public class StudentProfileController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-//    @PatchMapping("/{guardianId}")
-//    public  ResponseEntity<StudentGuardianResponse>patchUpdateStudentGuardian(
-//            @PathVariable Long studentId,
-//            @PathVariable Long guardianId,
-//            @Valid @RequestBody PatchUpdateStudentGuardianReq patchUpdateGuardianDto  ){
-//        StudentGuardianResponse response=studentGuardianService.patchUpdateStudentGuardian(studentId,guardianId,patchUpdateGuardianDto);
-//        return ResponseEntity.status(HttpStatus.OK).body(response);
-//    }
-//
-//    @DeleteMapping("/{guardianId}")
-//    public ResponseEntity<String> deleteStudentGuardian(
-//            @PathVariable Long studentId,
-//            @PathVariable Long guardianId
-//    ) {
-//        String message=studentGuardianService.deleteStudentGuardian(studentId,guardianId);
-//        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(message);
-//    }
+    @PatchMapping("/student/{studentId}/profile")
+    public  ResponseEntity<StudentProfileResponse>patchUpdateStudentProfile(
+            @PathVariable Long studentId,
+            @Valid @RequestBody PatchUpdateProfileReq patchProfileDto  ){
+        StudentProfileResponse response=studentProfileService.patchUpdateStudentProfile(studentId,patchProfileDto);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @DeleteMapping("/student/{studentId}/profile")
+    public ResponseEntity<String> deleteStudentProfile(
+            @PathVariable Long studentId
+    ) {
+        String message=studentProfileService.deleteProfileByStudentId(studentId);
+        return ResponseEntity.ok(message);
+    }
 }
