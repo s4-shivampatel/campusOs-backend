@@ -19,15 +19,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StudentController {
 
-    @Autowired
+
     private final StudentService studentService;
 
-    @PostMapping
-    public ResponseEntity<StudentResponse> createStudent(
-            @Valid @RequestBody CreateStudentRequest CreateDto) {
-        StudentResponse response = studentService.createStudent(CreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
+//    @PostMapping
+//    public ResponseEntity<StudentResponse> createStudent(
+//            @Valid @RequestBody CreateStudentRequest CreateDto) {
+//        StudentResponse response = studentService.createStudent(CreateDto);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<StudentResponse> getStudentById(

@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,34 +32,34 @@ public class StudentService {
     private final UserService userService;
 
 
-    public StudentResponse createStudent(@Valid CreateStudentRequest createDto) {
-        if(studentRepository.existsByEmail(createDto.getEmail())){
-            throw new DuplicateResourceException("email '"+createDto.getEmail()+"' already exist");
-        }
-        if(studentRepository.existsByRollNumber(createDto.getRollNumber())){
-            throw new DuplicateResourceException("Student with roll number '"+createDto.getRollNumber()+"' already exists");
-        }
-        if(userRepository.existsByUsername(createDto.getUsername())){
-            throw new DuplicateResourceException("Username  '"+createDto.getEmail()+"' already taken");
-        }
-        if (userRepository.existsByEmail(createDto.getEmail())) {
-            throw new DuplicateResourceException("User email '" + createDto.getEmail() + "' already exists");
-        }
-        //create student
-        Student student=modelMapper.map(createDto, Student.class);
-
-        //<------Creating User------->
-        User user=userService.createStudentUser(createDto);
-
-        //jo values model mapper ki help se set nhi hogi
-        if(student.getStatus()==null){
-            student.setStatus(ACTIVE);
-        }
-        student.setUser(user);
-        Student savedStudent=studentRepository.save(student);
-        return modelMapper.map(savedStudent,StudentResponse.class);
-
-    }
+//    public StudentResponse createStudent(@Valid CreateStudentRequest createDto) {
+//        if(studentRepository.existsByEmail(createDto.getEmail())){
+//            throw new DuplicateResourceException("email '"+createDto.getEmail()+"' already exist");
+//        }
+//        if(studentRepository.existsByRollNumber(createDto.getRollNumber())){
+//            throw new DuplicateResourceException("Student with roll number '"+createDto.getRollNumber()+"' already exists");
+//        }
+//        if(userRepository.existsByUsername(createDto.getUsername())){
+//            throw new DuplicateResourceException("Username  '"+createDto.getEmail()+"' already taken");
+//        }
+//        if (userRepository.existsByEmail(createDto.getEmail())) {
+//            throw new DuplicateResourceException("User email '" + createDto.getEmail() + "' already exists");
+//        }
+//        //create student
+//        Student student=modelMapper.map(createDto, Student.class);
+//
+//        //<------Creating User------->
+//        User user=userService.createStudentUser(createDto);
+//
+//        //jo values model mapper ki help se set nhi hogi
+//        if(student.getStatus()==null){
+//            student.setStatus(ACTIVE);
+//        }
+//        student.setUser(user);
+//        Student savedStudent=studentRepository.save(student);
+//        return modelMapper.map(savedStudent,StudentResponse.class);
+//
+//    }
     public StudentResponse getStudentById(Long id) {
 
         Student  savedStudent=studentRepository.findById(id).orElseThrow(

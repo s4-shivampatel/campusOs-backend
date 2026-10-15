@@ -1,9 +1,11 @@
 package com.campusos.campusos.student.dto;
 
 import com.campusos.campusos.common.enums.Gender;
+import com.campusos.campusos.user.entity.User;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -19,8 +21,12 @@ public class StudentResponse {
     private Gender gender;
     private LocalDate admissionDate;
     private String status;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
     private Long userId;
-    private Long departmentId;
+    private User user;
+//    private Long departmentId;
     private StudentProfileResponse studentProfile;
     private List<StudentAddressResponse> addresses;
     private List<StudentGuardianResponse> guardians;

@@ -30,10 +30,6 @@ public class CreateStudentRequest {
     @Column(nullable = false)
     private String confirmPassword;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private UserStatus status;
-
     //<--------Student Details----------->
     @NotBlank(message = "Student ID is required")
     @Size(max = 50, message = "Student ID must not exceed 50 characters")

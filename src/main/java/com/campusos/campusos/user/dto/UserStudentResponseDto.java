@@ -1,15 +1,14 @@
 package com.campusos.campusos.user.dto;
 
 import com.campusos.campusos.common.enums.UserStatus;
+import com.campusos.campusos.student.entity.Student;
 import com.campusos.campusos.user.entity.UserRole;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.PrePersist;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class UserResponseDto {
+public class UserStudentResponseDto {
 
     private Long id;
 
@@ -17,14 +16,16 @@ public class UserResponseDto {
 
     private String email;
 
-    private UserRole role;
-
     private UserStatus status;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 
     private Long studentId;
 
-//    private Long teacherId;
+    private Student student;
 
-    private LocalDateTime createdAt;
+    private UserRole role;
 
 }

@@ -4,10 +4,12 @@ package com.campusos.campusos.student.entity;
 import com.campusos.campusos.common.enums.Gender;
 import com.campusos.campusos.common.enums.StudentStatus;
 import com.campusos.campusos.user.entity.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,9 +63,30 @@ public class Student {
     @Column(nullable = false, length = 30)
     private StudentStatus status;
 
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+
+        if (status == null) {
+            status = StudentStatus.ACTIVE;
+        }
+    }
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+
 
     // <------USER RELATION------>
-    @OneToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.REMOVE
+    )
     @JoinColumn(
             name = "user_id",
             unique = true,

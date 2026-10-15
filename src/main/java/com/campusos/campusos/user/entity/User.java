@@ -2,11 +2,13 @@ package com.campusos.campusos.user.entity;
 
 import com.campusos.campusos.common.enums.UserStatus;
 import com.campusos.campusos.student.entity.Student;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -58,15 +60,20 @@ public class User {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
+
+
     //<------STUDENT RELATION------>
     @OneToOne(
             mappedBy = "user",
             fetch = FetchType.LAZY
     )
+    @JsonBackReference
     private Student student;
+
+    //<------USER_ROLE RELATION------>
 
     @OneToMany(mappedBy = "user",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private List<UserRole> userRole;
+    private List<UserRole> userRole=new ArrayList<>();
 }
