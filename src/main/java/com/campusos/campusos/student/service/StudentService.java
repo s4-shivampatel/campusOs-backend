@@ -6,6 +6,10 @@ import com.campusos.campusos.common.exception.ResourceNotFoundException;
 import com.campusos.campusos.student.dto.*;
 import com.campusos.campusos.student.entity.Student;
 import com.campusos.campusos.student.repository.StudentRepository;
+import com.campusos.campusos.user.entity.User;
+import com.campusos.campusos.user.repository.UserRepository;
+
+import com.campusos.campusos.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -23,23 +27,38 @@ public class StudentService {
     //@Autowired not required due to @RequiredArgsConstructor
     private final StudentRepository studentRepository;
     private final ModelMapper modelMapper;
+    private final UserRepository userRepository;
+    private final UserService userService;
+
 
     public StudentResponse createStudent(@Valid CreateStudentRequest createDto) {
         if(studentRepository.existsByEmail(createDto.getEmail())){
-            throw new DuplicateResourceException("Student with email '"+createDto.getEmail()+"' already exists");
+            throw new DuplicateResourceException("email '"+createDto.getEmail()+"' already exist");
         }
         if(studentRepository.existsByRollNumber(createDto.getRollNumber())){
             throw new DuplicateResourceException("Student with roll number '"+createDto.getRollNumber()+"' already exists");
         }
+        if(userRepository.existsByUsername(createDto.getUsername())){
+            throw new DuplicateResourceException("Username  '"+createDto.getEmail()+"' already taken");
+        }
+        if (userRepository.existsByEmail(createDto.getEmail())) {
+            throw new DuplicateResourceException("User email '" + createDto.getEmail() + "' already exists");
+        }
+        //create student
         Student student=modelMapper.map(createDto, Student.class);
+
+        //<------Creating User------->
+        User user=userService.createStudentUser(createDto);
+
+        //jo values model mapper ki help se set nhi hogi
         if(student.getStatus()==null){
             student.setStatus(ACTIVE);
         }
+        student.setUser(user);
         Student savedStudent=studentRepository.save(student);
-
         return modelMapper.map(savedStudent,StudentResponse.class);
-    }
 
+    }
     public StudentResponse getStudentById(Long id) {
 
         Student  savedStudent=studentRepository.findById(id).orElseThrow(
@@ -50,7 +69,10 @@ public class StudentService {
         response.getDocuments().forEach((StudentDocumentResponse doc)->doc.setStudentId(id));
         response.getEnrollments().forEach((StudentEnrollmentResponse enroll)->enroll.setStudentId(id));
         response.getGuardians().forEach((StudentGuardianResponse guardian)->guardian.setStudentId(id));
-        response.getStudentProfile().setStudentId(id);
+        if (response.getStudentProfile()!=null){
+            response.getStudentProfile().setStudentId(id);
+        }
+
         return response ;
 
     }

@@ -1,6 +1,9 @@
 package com.campusos.campusos.user.dto;
 
+import com.campusos.campusos.common.enums.UserStatus;
 import com.campusos.campusos.user.entity.UserRole;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.PrePersist;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -16,11 +19,12 @@ public class UserResponseDto {
 
     private UserRole role;
 
-    private Boolean enabled;
+    private UserStatus status;
 
     private Long studentId;
 
-    private Long teacherId;
+//    private Long teacherId;
 
     private LocalDateTime createdAt;
+
 }

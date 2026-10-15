@@ -114,13 +114,17 @@ public class StudentProfileService {
         Student student=studentRepository.findById(studentId).orElseThrow(
                 ()->new ResourceNotFoundException("Student not found with id "+studentId)
         );
+
         StudentProfile studentProfile=student.getStudentProfile();
         if (studentProfile == null) {
             throw new ResourceNotFoundException(
                     "Profile not found for Student Id " + studentId
             );
+
         }
-        studentProfileRepository.delete(studentProfile);
+        student.setStudentProfile(null);
+         studentProfileRepository.delete(studentProfile);
+
         return "Profile Deleted";
     }
 }
