@@ -5,6 +5,7 @@ import com.campusos.campusos.common.exception.ResourceNotFoundException;
 import com.campusos.campusos.student.dto.CreateStudentRequest;
 import com.campusos.campusos.student.dto.StudentResponse;
 import com.campusos.campusos.student.entity.Student;
+import com.campusos.campusos.student.repository.StudentRepository;
 import com.campusos.campusos.user.dto.UserStudentResponseDto;
 import com.campusos.campusos.user.entity.Role;
 import com.campusos.campusos.user.entity.User;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ public class UserService {
 //    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final StudentRepository studentRepository;
 
 
 
@@ -64,11 +67,17 @@ public class UserService {
     }
 
     //              <--------Deleting Users By userId---------->
+    @Transactional
     public String deleteUserById(Long userId) {
         User user=userRepository.findById(userId).orElseThrow(
                 ()-> new ResourceNotFoundException("User not found with id:"+userId)
         );
+        Student student=studentRepository.findById(user.getStudent().getId()).orElseThrow(
+                ()->new ResourceNotFoundException("student not found")
+        );
         userRepository.deleteById(userId);
+        studentRepository.delete(student);
         return "User deleted successfully";
+
     }
 }

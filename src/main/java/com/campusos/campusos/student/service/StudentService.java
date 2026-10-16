@@ -96,11 +96,16 @@ public class StudentService {
         return modelMapper.map(updatedStudent,StudentResponse.class);
     }
 
+    @Transactional
     public void deleteStudent(Long id) {
         Student studentFounded=studentRepository.findById(id).orElseThrow(
                 ()->new ResourceNotFoundException("student not found with id:"+id)
         );
+        User user=userRepository.findById(studentFounded.getUser().getId()).orElseThrow(
+                ()->new ResourceNotFoundException("User not found")
+        );
         studentRepository.delete(studentFounded);
+        userRepository.delete(user);
     }
 
 
