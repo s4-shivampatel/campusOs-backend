@@ -73,6 +73,8 @@ public class StudentService {
         if (response.getStudentProfile()!=null){
             response.getStudentProfile().setStudentId(id);
         }
+        response.setUserId(savedStudent.getUser().getId());
+
 
         return response ;
 

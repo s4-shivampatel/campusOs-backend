@@ -1,6 +1,8 @@
 package com.campusos.campusos.student.entity;
 
 import com.campusos.campusos.common.enums.GuardianRelation;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,7 +35,7 @@ public class StudentGuardian {
 
 
     // Many guardians can belong to one student
-
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "student_id",

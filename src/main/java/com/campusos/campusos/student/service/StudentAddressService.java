@@ -22,34 +22,52 @@ public class StudentAddressService {
 
     private final ModelMapper modelMapper;
 
-    public StudentAddressResponse createStudentAdd(Long id,@Valid CreateStudentAddressRequest createAddDto) {
-        Student student=studentRepository.findById(id).orElseThrow(
-                ()->new ResourceNotFoundException("Student not found with id "+id)
+    public StudentAddressResponse createStudentAdd(Long studentId,@Valid CreateStudentAddressRequest createAddDto) {
+        Student student=studentRepository.findById(studentId).orElseThrow(
+                ()->new ResourceNotFoundException("Student not found with id "+studentId)
         );
         StudentAddress studentAddress=modelMapper.map(createAddDto,StudentAddress.class);
+
+        //Maintaining Both side relation
         studentAddress.setStudent(student);
+        List<StudentAddress> addressList=new ArrayList<>();
+        addressList.add(studentAddress);
+        student.setAddresses(addressList);
 
         StudentAddress savedStudentAdd= studentAddressRepository.save(studentAddress);
 
-        return modelMapper.map(savedStudentAdd,StudentAddressResponse.class);
+        StudentAddressResponse response=modelMapper.map(savedStudentAdd,StudentAddressResponse.class);
+        response.setStudentId(studentId);
+        return response;
 
     }
 
-    public StudentAddressResponse getStudentAddById(Long id) {
-
-        StudentAddress studentAddress=studentAddressRepository.findById(id).orElseThrow(
-                ()-> new ResourceNotFoundException("Address not found with id:"+id)
+    public StudentAddressResponse getStudentAddById(Long studentId,Long addressId) {
+        Student student=studentRepository.findById(studentId).orElseThrow(
+                ()-> new ResourceNotFoundException("student not found with id:"+studentId)
         );
-        return modelMapper.map(studentAddress,StudentAddressResponse.class);
+        StudentAddress studentAddress=studentAddressRepository.findById(addressId).orElseThrow(
+                ()-> new ResourceNotFoundException("Address not found with id:"+addressId)
+        );
+        StudentAddressResponse response=modelMapper.map(studentAddress,StudentAddressResponse.class);
+        response.setStudentId(studentId);
+
+        return response;
     }
 
 
-    public List<StudentAddressResponse> getAddOfStudent() {
+    public List<StudentAddressResponse> getAddOfStudent(Long studentId) {
+        Student student=studentRepository.findById(studentId).orElseThrow(
+                ()->new ResourceNotFoundException("Student not exists with student id:"+studentId)
+        );
         List<StudentAddress> studentAddresses=studentAddressRepository.findAll();
         List<StudentAddressResponse> responses=new ArrayList<>();
         for (StudentAddress studentAddress: studentAddresses){
-            responses.add(modelMapper.map(studentAddress,StudentAddressResponse.class));
+            StudentAddressResponse res=modelMapper.map(studentAddress,StudentAddressResponse.class);
+            res.setStudentId(studentId);
+            responses.add(res);
         }
+
         return responses;
     }
 

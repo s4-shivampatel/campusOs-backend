@@ -1,5 +1,6 @@
 package com.campusos.campusos.student.dto;
 
+import com.campusos.campusos.student.entity.Student;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -18,4 +19,5 @@ public class StudentDocumentResponse {
     private LocalDateTime uploadedAt;
 
     private Long studentId;
+
 }

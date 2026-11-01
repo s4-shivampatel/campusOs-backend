@@ -1,6 +1,7 @@
 package com.campusos.campusos.student.dto;
 
 import com.campusos.campusos.common.enums.AddressType;
+import com.campusos.campusos.student.entity.Student;
 import lombok.Data;
 
 @Data
@@ -23,5 +24,6 @@ public class StudentAddressResponse {
     private String pincode;
 
     private Long studentId;
+
 
 }

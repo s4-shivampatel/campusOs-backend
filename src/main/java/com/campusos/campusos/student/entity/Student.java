@@ -1,10 +1,11 @@
 package com.campusos.campusos.student.entity;
 
-
 import com.campusos.campusos.common.enums.Gender;
 import com.campusos.campusos.common.enums.StudentStatus;
 import com.campusos.campusos.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -102,6 +103,7 @@ public class Student {
 
 
     // <------PROFILE RELATION------>
+    @JsonBackReference
     @OneToOne(
             mappedBy = "student",
             cascade = CascadeType.ALL,
@@ -111,6 +113,8 @@ public class Student {
 
 
     // <------ADDRESS RELATION------>
+
+    @JsonBackReference
     @OneToMany(
             mappedBy = "student",
             cascade = CascadeType.ALL,
@@ -121,6 +125,7 @@ public class Student {
 
 
     // <------GUARDIAN RELATION------>
+    @JsonBackReference
     @OneToMany(
             mappedBy = "student",
             cascade = CascadeType.ALL,
@@ -131,6 +136,7 @@ public class Student {
 
 
     // <------DOCUMENT RELATION------>
+    @JsonBackReference
     @OneToMany(
             mappedBy = "student",
             cascade = CascadeType.ALL,
@@ -140,7 +146,7 @@ public class Student {
     private List<StudentDocument> documents = new ArrayList<>();
 
     // <------ENROLLMENT RELATION------>
-
+    @JsonBackReference
     @OneToMany(
             mappedBy = "student",
             cascade = CascadeType.ALL,

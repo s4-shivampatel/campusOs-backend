@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/students/{id}/addresses")
+@RequestMapping("/api/students/{studentId}/addresses")
 @RequiredArgsConstructor
 public class StudentAddressController {
 
@@ -22,22 +22,23 @@ public class StudentAddressController {
 
     @PostMapping
     public ResponseEntity<StudentAddressResponse> createStudentAdd(
-            @PathVariable Long id,
+            @PathVariable Long studentId,
             @Valid @RequestBody CreateStudentAddressRequest createAddDto) {
-        StudentAddressResponse response = studentAddressService.createStudentAdd(id,createAddDto);
+        StudentAddressResponse response = studentAddressService.createStudentAdd(studentId,createAddDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{AddressId}")
     public ResponseEntity<StudentAddressResponse> getStudentAddById(
+            @PathVariable Long studentId,
             @PathVariable Long AddressId) {
-        StudentAddressResponse response = studentAddressService.getStudentAddById(AddressId);
+        StudentAddressResponse response = studentAddressService.getStudentAddById(studentId,AddressId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<StudentAddressResponse>> getAddOfStudent() {
-        List<StudentAddressResponse> response = studentAddressService.getAddOfStudent();
+    public ResponseEntity<List<StudentAddressResponse>> getAddOfStudent(@PathVariable Long studentId) {
+        List<StudentAddressResponse> response = studentAddressService.getAddOfStudent(studentId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

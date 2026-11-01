@@ -3,6 +3,7 @@ package com.campusos.campusos.common.exception;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleResourceNotFoundException(
             HttpServletRequest request,
@@ -65,4 +67,19 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
+
+//    @ExceptionHandler(AccessDeniedException.class)
+//    public ResponseEntity<ErrorResponse> handleAccessDeniedException(
+//            HttpServletRequest request,
+//            ResourceNotFoundException ex
+//    ){
+//        ErrorResponse errorResponse=new ErrorResponse(
+//                HttpStatus.FORBIDDEN.value(),
+//                ex.getMessage()!=null?ex.getMessage():"You are not authorized to access this resource",
+//                request.getRequestURI(),
+//                null,
+//                LocalDateTime.now()
+//        );
+//        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
+//    }
 }

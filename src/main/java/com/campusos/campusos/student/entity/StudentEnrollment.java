@@ -4,6 +4,8 @@ package com.campusos.campusos.student.entity;
 //import com.campusos.campusos.department.entity.Department;
 //import com.campusos.campusos.program.entity.Program;
 import com.campusos.campusos.common.enums.EnrollmentStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,6 +38,7 @@ public class StudentEnrollment {
 
     // <------STUDENT RELATION------>
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonManagedReference
     @JoinColumn(
             name = "student_id",
             nullable = false

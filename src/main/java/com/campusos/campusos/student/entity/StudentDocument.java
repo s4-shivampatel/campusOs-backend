@@ -1,6 +1,8 @@
 package com.campusos.campusos.student.entity;
 
 import com.campusos.campusos.common.enums.DocumentType;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,7 +40,9 @@ public class StudentDocument {
     }
 
     // Many documents belong to one student
+
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonManagedReference
     @JoinColumn(
             name = "student_id",
             nullable = false

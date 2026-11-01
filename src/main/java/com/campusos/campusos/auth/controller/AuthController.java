@@ -1,5 +1,7 @@
 package com.campusos.campusos.auth.controller;
 
+import com.campusos.campusos.auth.dto.StudentLoginRequestDto;
+import com.campusos.campusos.auth.dto.StudentLoginResponseDto;
 import com.campusos.campusos.auth.service.AuthService;
 import com.campusos.campusos.student.dto.CreateStudentRequest;
 import com.campusos.campusos.user.dto.UserStudentResponseDto;
@@ -20,5 +22,15 @@ public class AuthController {
     public ResponseEntity<UserStudentResponseDto> createStudentUser(@Valid @RequestBody CreateStudentRequest createStudentRequest){
         UserStudentResponseDto user=authService.createStudentUser(createStudentRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
+
+    @PostMapping("/student-login")
+    public ResponseEntity<StudentLoginResponseDto> studentLogin(
+            @Valid @RequestBody StudentLoginRequestDto request) {
+
+        StudentLoginResponseDto response =
+                authService.studentLogin(request);
+
+        return ResponseEntity.ok(response);
     }
 }

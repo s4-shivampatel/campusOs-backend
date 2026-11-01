@@ -1,0 +1,15 @@
+package com.campusos.campusos.auth.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+
+@Data
+public class StudentLoginRequestDto {
+
+    @NotBlank(message = "Student ID is required")
+    private String username;
+
+    @NotBlank(message = "Password is required")
+    private String password;
+
+}

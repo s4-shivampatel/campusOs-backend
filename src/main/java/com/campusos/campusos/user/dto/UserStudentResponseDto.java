@@ -6,6 +6,7 @@ import com.campusos.campusos.user.entity.UserRole;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class UserStudentResponseDto {
@@ -24,8 +25,6 @@ public class UserStudentResponseDto {
 
     private Long studentId;
 
-    private Student student;
-
-    private UserRole role;
+    private List<String> userRole;
 
 }

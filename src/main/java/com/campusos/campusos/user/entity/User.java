@@ -65,7 +65,9 @@ public class User {
     //<------STUDENT RELATION------>
     @OneToOne(
             mappedBy = "user",
-            fetch = FetchType.LAZY
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
     @JsonBackReference
     private Student student;

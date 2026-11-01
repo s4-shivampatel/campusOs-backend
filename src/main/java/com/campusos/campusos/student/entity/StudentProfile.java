@@ -1,5 +1,7 @@
 package com.campusos.campusos.student.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,6 +36,7 @@ public class StudentProfile {
     // StudentProfile -------> Student = 1:1
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JsonManagedReference
     @JoinColumn(
             name = "student_id",
             nullable = false,

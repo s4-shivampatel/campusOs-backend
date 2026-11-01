@@ -23,9 +23,7 @@ public class StudentResponse {
     private String status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
     private Long userId;
-    private User user;
 //    private Long departmentId;
     private StudentProfileResponse studentProfile;
     private List<StudentAddressResponse> addresses;

@@ -30,6 +30,9 @@ public class StudentDocumentService {
         );
         StudentDocument studentDocument= modelMapper.map(createDocDto,StudentDocument.class);
         studentDocument.setStudent(student);
+        List<StudentDocument> documentList=new ArrayList<>();
+        documentList.add(studentDocument);
+        student.setDocuments(documentList);
 
         StudentDocument saveDocument=studentDocumentRepository.save(studentDocument);
         StudentDocumentResponse response=modelMapper.map(saveDocument,StudentDocumentResponse.class);
