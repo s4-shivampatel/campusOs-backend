@@ -83,15 +83,5 @@ public class StudentEnrollment {
 
 
 
-    // =========================
-    // COURSES
-    // =========================
 
-//    @OneToMany(
-//            mappedBy = "enrollment",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true
-//    )
-//    @Builder.Default
-//    private List<StudentCourse> courses = new ArrayList<>();
 }

@@ -8,4 +8,5 @@ public class StudentLoginResponseDto {
     private Long id;
     private String username;
     private String message;
+    private String jwtToken;
 }

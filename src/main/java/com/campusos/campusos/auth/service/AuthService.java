@@ -5,6 +5,7 @@ import com.campusos.campusos.auth.dto.StudentLoginRequestDto;
 import com.campusos.campusos.auth.dto.StudentLoginResponseDto;
 import com.campusos.campusos.common.exception.DuplicateResourceException;
 import com.campusos.campusos.common.exception.ResourceNotFoundException;
+import com.campusos.campusos.security.JwtService;
 import com.campusos.campusos.student.dto.CreateStudentRequest;
 import com.campusos.campusos.student.entity.Student;
 import com.campusos.campusos.student.repository.StudentRepository;
@@ -19,12 +20,17 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +42,8 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final UserRoleRepository userRoleRepository;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
     @Transactional
     public UserStudentResponseDto createStudentUser(@Valid CreateStudentRequest createStudentRequest) {
@@ -101,19 +109,15 @@ public class AuthService {
         User user = userRepository.findByEmail(request.getUsername()).orElseThrow(
                 () -> new ResourceNotFoundException("User not found with username:" + request.getUsername())
         );
-        boolean passwordMatches = passwordEncoder.matches(
-                request.getPassword(),
-                user.getPassword()
+        Authentication authentication=authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getUsername(),request.getPassword())
         );
-        if (!passwordMatches) {
-            throw new ResponseStatusException(
-                    HttpStatus.UNAUTHORIZED,
-                    "Invalid username or password"
-            );
-        }
+        String jwtToken=jwtService.generateToken((UserDetails) Objects.requireNonNull(authentication.getPrincipal()));
+
         StudentLoginResponseDto response=modelMapper.map(request,StudentLoginResponseDto.class);
         response.setId(user.getId());
         response.setMessage("Login Successful");
+        response.setJwtToken(jwtToken);
         return response;
     }
 }

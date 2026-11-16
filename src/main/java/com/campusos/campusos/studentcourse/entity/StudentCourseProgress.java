@@ -27,9 +27,6 @@ public class StudentCourseProgress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "student_course_id", nullable = false, unique = true)
-    private StudentCourse studentCourse;
 
     @Column(nullable = false)
     private Integer completedTopics = 0;
