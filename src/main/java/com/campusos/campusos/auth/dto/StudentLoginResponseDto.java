@@ -5,7 +5,8 @@ import lombok.Data;
 @Data
 public class StudentLoginResponseDto {
 
-    private Long id;
+    private Long userId;
+    private Long studentId;
     private String username;
     private String message;
     private String jwtToken;

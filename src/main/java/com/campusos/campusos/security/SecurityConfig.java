@@ -39,10 +39,21 @@ public class SecurityConfig {
                 .sessionManagement(session->session.sessionCreationPolicy(
                 SessionCreationPolicy.STATELESS))
 
-                .authorizeHttpRequests((auth) ->
-                        auth.requestMatchers(HttpMethod.POST,
-                                        "/api/auth/students-register",
-                                        "/api/auth/student-login").permitAll()
+                .authorizeHttpRequests((auth) -> auth
+                        //public APIs
+                        .requestMatchers(
+                                "/api/auth/**"
+                        ).permitAll()
+
+                        //Admin APIs
+                        .requestMatchers(
+                                "/api/admin/**"
+                        ).hasRole("ADMIN")
+
+                        //Student APIs
+                        .requestMatchers(
+                                "/api/students/**"
+                        ).hasRole("STUDENT")
                                 .anyRequest().authenticated());
         httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

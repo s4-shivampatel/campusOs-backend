@@ -115,7 +115,8 @@ public class AuthService {
         String jwtToken=jwtService.generateToken((UserDetails) Objects.requireNonNull(authentication.getPrincipal()));
 
         StudentLoginResponseDto response=modelMapper.map(request,StudentLoginResponseDto.class);
-        response.setId(user.getId());
+        response.setUserId(user.getId());
+        response.setStudentId(user.getStudent().getId());
         response.setMessage("Login Successful");
         response.setJwtToken(jwtToken);
         return response;
